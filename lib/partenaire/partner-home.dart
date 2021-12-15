@@ -1,0 +1,233 @@
+import 'package:camdrives/constante.dart';
+import 'package:camdrives/livreur/deliver-details.dart';
+import 'package:camdrives/partenaire/partner-order.dart';
+import 'package:camdrives/provider/Order.dart';
+//import 'package:camdrives/widgets/client-drawer.dart';
+import 'package:camdrives/widgets/deliver-drawer.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+
+class MyPartnerHome extends StatefulWidget {
+  @override
+  _MyPartnerHomeState createState() => _MyPartnerHomeState();
+}
+
+class _MyPartnerHomeState extends State<MyPartnerHome> {
+  @override
+  Widget build(BuildContext context) {
+    final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+    final orderData = Provider.of<Order>(context);
+    return Scaffold(
+      key: _scaffoldKey,
+      drawer: MyDrawerDeliver(),
+      appBar: AppBar(
+        bottomOpacity: 0.0,
+        elevation: 0.0,
+        leading: TextButton(
+          onPressed: () {
+            _scaffoldKey.currentState!.openDrawer();
+          },
+          child: Icon(Icons.sort_outlined,
+              color: ClientAppBarColor, size: ClientAppBarSize),
+        ),
+
+        actions: [
+          Row(
+            children: [
+              Icon(
+                Icons.notifications_none_outlined,
+                color: ClientAppBarColor,
+                size: ClientAppBarSize,
+              ),
+              SizedBox(
+                width: 20,
+              ),
+              Icon(Icons.search_outlined,
+                  color: ClientAppBarColor, size: ClientAppBarSize)
+            ],
+          )
+        ],
+        centerTitle: true,
+        backgroundColor: Colors.transparent,
+
+        title: Text(
+          'Accueil',
+          style: clientTitleStyle,
+        ),
+
+//        bottom: TabBar(
+//          tabs: [
+//            Tab(
+//              child: Text(
+//                'Disoponible',
+//                style: TextStyle(fontWeight: FontWeight.bold),
+//              ),
+//            ),
+//            Tab(
+//              child: Text(
+//                'Favoris',
+//                style: TextStyle(fontWeight: FontWeight.bold),
+//              ),
+//            ),
+//          ],
+//
+//
+//          indicator: UnderlineTabIndicator(
+//              borderSide: BorderSide(color: Colors.red,width: 3)),
+//          unselectedLabelColor: Color(0xFFc2c2c1),
+//          labelColor: Color(0xFF4d4d4d),
+//        ),
+      ),
+
+      body:
+      Column(
+        children: [
+          Row(
+            children: [
+              Expanded(
+                  child: Container(
+                    padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
+                    margin: EdgeInsets.fromLTRB(30, 0, 30, 0),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Expanded(
+                              flex: 10,
+                              child: Text(
+                                'COMMANDES DISPONIBLES' ,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                textAlign: TextAlign.left,
+                              ),
+                            ),
+                            Expanded(flex:1,child: Icon(Icons.list,color: Colors.grey.shade600,)),
+                          ],
+                        ),
+
+                        SizedBox(
+                          height: 5,
+                        ),
+                      ],
+                    ),
+                    decoration: BoxDecoration(
+                        border: Border(
+                            bottom: BorderSide(
+                                color: authenticateBackground,
+                                width: 3.0,
+                                style: BorderStyle.solid))),
+                  )),
+            ],
+          ),
+          Container(
+            width: double.infinity,
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 50,
+                ),
+                ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: orderData.orders.length,
+                  itemBuilder: (context, index) => Container(
+                    decoration: BoxDecoration(color: Colors.white,borderRadius: BorderRadius.circular(10)),
+                    padding: EdgeInsets.all(10),
+                    margin: EdgeInsets.fromLTRB(20, 10, 20 ,10),
+                    child: Row(
+                      children: [
+                        Expanded(
+                            flex: 1,
+                            child: Column(
+                              children: [Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: Image.network('https://media.istockphoto.com/vectors/vector-shopping-bag-icon-vector-id521788585?b=1&k=20&m=521788585&s=170667a&w=0&h=_QgDht6-9r4-pALpaAz-4mpf3nk0RN8PkNhP5sfqyiA=',fit: BoxFit.fill,),
+                              )],
+                            )),
+                        Expanded(
+                            flex: 2,
+                            child: Column(
+                              children: [
+                                Row(children: [
+                                  Expanded(
+                                      child: Text(
+                                        'Order ${orderData.orders[index].id}',
+                                        style: CartStyles,
+                                      ))
+                                ]),
+                                SizedBox(height: 10,),
+                                Row(children: [
+                                  Expanded(flex:3,
+
+                                      child: Text(
+                                        ' ${orderData.orders[index].amount} FR',style: TextStyle(color: Colors.grey,fontWeight: FontWeight.w600),
+                                      )),
+                                  Expanded(flex:1,child:Container(decoration:BoxDecoration(borderRadius: BorderRadius.circular(10),color: Colors.green),child: Text('En cours',style: TextStyle(fontSize: 10,color: Colors.white),textAlign:TextAlign.center,),))
+                                ]),
+                                SizedBox(height: 15,),
+                                Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Expanded(flex: 1,
+                                          child: RichText(
+                                            text: TextSpan(
+                                              children: [
+
+                                                WidgetSpan(
+                                                  child: Icon(Icons.location_on_outlined, size: 15,color: Colors.grey,),
+                                                ),
+                                                TextSpan(
+                                                  text: "deido",style: TextStyle(color: Colors.grey),
+                                                ),
+                                              ],
+                                            ),
+                                          )),
+
+                                      Expanded(flex: 2,
+                                          child:  Container(
+                                            margin: EdgeInsets.fromLTRB(25, 0, 25, 0),
+                                            height: 30,
+                                            child: TextButton(
+                                              onPressed: () {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(builder: (context) => OrderPartnerDetails(orderData: orderData.orders[index])),
+                                                );
+
+                                              },
+                                              style: TextButton.styleFrom(
+                                                  backgroundColor: authenticateBackground,
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius: BorderRadius.circular(24.0),
+                                                  ),
+                                                  shadowColor: Colors.deepOrangeAccent),
+                                              child: Text(
+                                                'Voir le contenu',
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                    color:Colors.white, fontFamily: 'Monstera', fontSize: 10),
+                                              ),
+                                            ),
+                                          )
+                                      ),
+
+                                    ]),
+                                SizedBox(height: 10,),
+                              ],
+                            ))
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            ),
+            decoration: BoxDecoration(
+              color: Colors.grey.shade200,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
