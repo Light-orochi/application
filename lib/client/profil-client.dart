@@ -2,24 +2,23 @@ import 'package:camdrives/provider/Order.dart';
 //import 'package:camdrives/provider/cart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import '../constante.dart';
 
-class ClientProfil extends StatefulWidget {
 
+class ClientProfil extends StatefulWidget {
+  final GoogleSignInAccount client;
+    ClientProfil({required this.client});
 
   @override
   _ClientProfilState createState() => _ClientProfilState();
 }
 
 class _ClientProfilState extends State<ClientProfil> {
-
-
   @override
-
   Widget build(BuildContext context) {
-
-    return Scaffold(
+    return  Scaffold(
         appBar:  AppBar(
           bottomOpacity: 0.0,
           elevation: 0.0,
@@ -79,7 +78,8 @@ class _ClientProfilState extends State<ClientProfil> {
 //          labelColor: Color(0xFF4d4d4d),
 //        ),
         ),
-        body:Stack(
+        body:
+        Stack(
           alignment: Alignment.center,
           children: <Widget>[
             Positioned(
@@ -94,11 +94,12 @@ class _ClientProfilState extends State<ClientProfil> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+
                         Container(width:150,height: 150, decoration: BoxDecoration(borderRadius: BorderRadius.circular(50),color: Colors.red),child: ClipRRect(borderRadius:BorderRadius.circular(50),child: Image.network('https://members-api.parliament.uk/api/Members/4066/Portrait?cropType=OneOne&webVersion=false',fit: BoxFit.fill,))),
                       ],
                     ),
                     SizedBox(height: 10,),
-                    Text('Rose amandine',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.white),),
+                    Text('${widget.client.displayName}',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.white),),
                     SizedBox(height: 10,),
                     Text('Client',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.grey.shade300),),
 
@@ -124,7 +125,9 @@ class _ClientProfilState extends State<ClientProfil> {
                     child:
                     Container(
                       decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
-                      child: DefaultTabController(
+                      child: 
+                      
+                      DefaultTabController(
 
                           length: 2,
                           child: Column(
@@ -165,7 +168,7 @@ class _ClientProfilState extends State<ClientProfil> {
                                               child: TextField(
                                                 decoration: InputDecoration(
                                                     border: UnderlineInputBorder(),
-                                                    hintText: 'Rose amadine',
+                                                    hintText: '${widget.client.displayName}',
                                                     focusedBorder: UnderlineInputBorder(
                                                         borderSide: BorderSide(
                                                             color: authenticateBackground,
@@ -176,7 +179,7 @@ class _ClientProfilState extends State<ClientProfil> {
                                               child: TextField(
                                                 decoration: InputDecoration(
                                                     border: UnderlineInputBorder(),
-                                                    hintText: 'rose@gmail.com',
+                                                    hintText: '${widget.client.email}',
                                                     focusedBorder: UnderlineInputBorder(
                                                         borderSide: BorderSide(
                                                             color: authenticateBackground,
@@ -334,6 +337,7 @@ class _ClientProfilState extends State<ClientProfil> {
     );
   }
 }
+
 
 //             Positioned(
 //               child: Container(

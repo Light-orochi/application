@@ -1,11 +1,15 @@
+import 'package:camdrives/auth/google_sign_in.dart';
+import 'package:camdrives/client/profil-client.dart';
 import 'package:camdrives/constante.dart';
 import 'package:camdrives/helper/authenticatehelper.dart';
 import 'package:flutter/material.dart';
 
 class MyLoginScreen extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       backgroundColor: authenticateBackground,
       appBar: AppBar(
         leading: TextButton(
@@ -35,7 +39,7 @@ class LoginClass extends StatefulWidget {
 
 class _LoginClassState extends State<LoginClass> {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext currentContext) {
     return Center(
         child: SingleChildScrollView(
           child: Column(
@@ -92,7 +96,9 @@ class _LoginClassState extends State<LoginClass> {
                           MyButton(
                               text: 'Connecter',
                               colour: authenticateBackground,
-                              textColour: Colors.white),
+                              textColour: Colors.white,
+
+                          ),
                         ],
                       ),
                       SizedBox(
@@ -146,5 +152,6 @@ class _LoginClassState extends State<LoginClass> {
     ),
         ));
   }
+
 }
 

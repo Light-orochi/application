@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="facebook_app_id">2423756731091973</string>
+    <string name="fb_login_protocol_scheme">fb2423756731091973</string>
+    <string name="facebook_client_token">acbe560c0910b950875c432d80024f74</string>
+    <string name="app_name">FlutterCamdrive</string>
+
+
+</resources>

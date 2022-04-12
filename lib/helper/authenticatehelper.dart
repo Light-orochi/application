@@ -1,7 +1,13 @@
+
+import 'package:camdrives/auth/google_sign_in.dart';
+import 'package:camdrives/client/profil-client.dart';
 import 'package:camdrives/constante.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
-class MyButton extends StatelessWidget {
+class MyButton extends StatefulWidget {
+
   final String text;
   final Color colour;
   final textColour;
@@ -9,8 +15,14 @@ class MyButton extends StatelessWidget {
       {Key? key,
       required this.text,
       required this.colour,
-      required this.textColour})
+      required this.textColour,})
       : super(key: key);
+
+  @override
+  _MyButtonState createState() => _MyButtonState();
+}
+
+class _MyButtonState extends State<MyButton> {
 
   @override
   Widget build(BuildContext context) {
@@ -24,17 +36,17 @@ class MyButton extends StatelessWidget {
           print('pressed');
         },
         style: TextButton.styleFrom(
-            backgroundColor: colour,
+            backgroundColor: widget.colour,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(24.0),
             ),
             shadowColor: Colors.deepOrangeAccent,
             elevation: 10),
         child: Text(
-          text,
+          widget.text,
           textAlign: TextAlign.center,
           style: TextStyle(
-              color: textColour, fontFamily: 'Monstera', fontSize: 15),
+              color: widget.textColour, fontFamily: 'Monstera', fontSize: 15),
         ),
       ),
     ));
@@ -67,7 +79,7 @@ class MyDivider extends StatelessWidget {
   }
 }
 
-class SocialLogin extends StatelessWidget {
+class SocialLogin extends StatefulWidget {
   final IconData icons;
   final String text;
   final Color background;
@@ -83,22 +95,27 @@ class SocialLogin extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  _SocialLoginState createState() => _SocialLoginState();
+}
+
+class _SocialLoginState extends State<SocialLogin> {
+  @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
-        margin: EdgeInsets.fromLTRB(marginleft, 0, marginRight, 0),
+        margin: EdgeInsets.fromLTRB(widget.marginleft, 0, widget.marginRight, 0),
         child: TextButton(
-          onPressed: () {},
+          onPressed: FacebookSign,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(
-                icons,
+                widget.icons,
                 color: Colors.white,
                 size: 30,
               ),
               Text(
-                text,
+                widget.text,
                 style: TextStyle(
                   color: Colors.white,
                 ),
@@ -106,7 +123,7 @@ class SocialLogin extends StatelessWidget {
             ],
           ),
           style: TextButton.styleFrom(
-              backgroundColor: background,
+              backgroundColor: widget.background,
               shadowColor: Colors.deepOrangeAccent,
               elevation: 10,
               shape: RoundedRectangleBorder(
@@ -117,4 +134,35 @@ class SocialLogin extends StatelessWidget {
       ),
     );
   }
+
+  Future signIn() async{
+    final user = await GoogleSignInApi.login();
+    if(user==null){
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('pas d\'utilisateur')));
+    }
+    else{
+
+      Navigator.of(context ).pushReplacement(MaterialPageRoute(builder:
+          (context)=>ClientProfil(client:user)));
+    }
+  }
+
+  Future FacebookSign() async {
+    final LoginResult result = await FacebookAuth.instance.login(
+      permissions: ["public_profile","email"]
+    ); // by default we request the email and the public profile
+// or FacebookAuth.i.login()
+    if (result.status == LoginStatus.success) {
+       print(result);
+      final AccessToken accessToken = result.accessToken!;
+    } else {
+      print(result.status);
+      print(result.message);
+    }
+  }
+
+
 }
+
+
+
